@@ -1,0 +1,19 @@
+language: java
+
+jdk:
+  - openjdk9
+
+addons:
+  sonarcloud:
+    organization: "valtech_avs"
+    token:
+      secure: TODO
+
+script:
+  - mvn test javadoc:javadoc -B
+  - sonar-scanner
+
+cache:
+  directories:
+    - '$HOME/.sonar/cache'
+    - '$HOME/.m2'
