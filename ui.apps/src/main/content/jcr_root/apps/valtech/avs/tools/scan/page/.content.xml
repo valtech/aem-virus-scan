@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:granite="http://www.adobe.com/jcr/granite/1.0"
+          xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+          jcr:primaryType="cq:Page">
+    <jcr:content
+            jcr:mixinTypes="[sling:VanityPath]"
+            jcr:primaryType="nt:unstructured"
+            jcr:title="AEM Virus Scan - Scan a File"
+            sling:redirect="{Boolean}false"
+            sling:resourceType="granite/ui/components/shell/page"
+            modeGroup="avs-scan"
+            targetCollection=".avs-scan"
+            consoleId="avs-scan"
+            contentPath="${requestPathInfo.suffix}"
+            >
+        <head jcr:primaryType="nt:unstructured">
+            <clientlibs
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/includeclientlibs"
+                    categories="[coralui3,granite.ui.coral.foundation,avs.editor]"/>
+        </head>
+        <title
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="valtech/avs/components/content/scan/title"
+        />
+        <content
+           jcr:primaryType="nt:unstructured"
+           sling:resourceType="granite/ui/components/coral/foundation/container"
+           >
+        </content>
+    </jcr:content>
+</jcr:root>
