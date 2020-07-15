@@ -18,22 +18,90 @@
  */
 package de.valtech.avs.core.service.scanner;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
 import org.osgi.service.metatype.annotations.Designate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.valtech.avs.api.service.AvsException;
 import de.valtech.avs.api.service.scanner.AvsScannerEnine;
 import de.valtech.avs.api.service.scanner.ScanResult;
 
-@Component(service = ClamScannerEngine.class, configurationPolicy = ConfigurationPolicy.REQUIRE, immediate = true)
+/**
+ * AVS scan engine using ClamAV.
+ * 
+ * @author Roland Gruber
+ */
+@Component(service = AvsScannerEnine.class, configurationPolicy = ConfigurationPolicy.REQUIRE, immediate = true)
 @Designate(ocd = ClamScannerConfig.class)
 public class ClamScannerEngine implements AvsScannerEnine {
 
+    private static final Logger LOG = LoggerFactory.getLogger(ClamScannerEngine.class);
+
+    private ClamScannerConfig config;
+
+    /**
+     * Setup service
+     * 
+     * @param avconfig configuration
+     */
+    @Activate
+    public void activate(ClamScannerConfig config) {
+        this.config = config;
+    }
+
     @Override
     public ScanResult scanContent(String content) throws AvsException {
-        // TODO Auto-generated method stub
-        return null;
+        try {
+            File tempFile = createTemporaryFile(content);
+            Runtime runtime = Runtime.getRuntime();
+            String command = config.command() + " " + tempFile.getPath();
+            Process process = runtime.exec(command);
+            InputStream in = process.getInputStream();
+            InputStream err = process.getErrorStream();
+            int returnCode = process.waitFor();
+            String output = IOUtils.toString(in, Charset.forName("UTF-8"));
+            String error = IOUtils.toString(err, Charset.forName("UTF-8"));
+            in.close();
+            err.close();
+
+            Files.delete(Paths.get(tempFile.getPath()));
+            if ((returnCode == 0) && StringUtils.isBlank(error)) {
+                return new ScanResult(output, true);
+            }
+            return new ScanResult(output + "\n" + error, false);
+        } catch (IOException | InterruptedException e) {
+            LOG.error("Error during scanning", e);
+            Thread.currentThread().interrupt();
+            throw new AvsException("Error during scanning", e);
+        }
+    }
+
+    /**
+     * Creates a temporary file with the given content.
+     * 
+     * @param content content
+     * @return file handle
+     * @throws IOException error creating file
+     */
+    private File createTemporaryFile(String content) throws IOException {
+        File file = File.createTempFile("valtech-avs", ".tmp");
+        try (FileWriter writer = new FileWriter(file)) {
+            writer.write(content);
+        }
+        return file;
     }
 
 }

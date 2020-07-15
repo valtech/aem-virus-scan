@@ -21,6 +21,7 @@ package de.valtech.avs.core.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
@@ -63,7 +64,21 @@ public class AvsServiceImpl implements AvsService {
 
     @Override
     public ScanResult scanContent(String content) throws AvsException {
-        return new ScanResult("out", true);
+        if (engines.isEmpty()) {
+            throw new AvsException("No scanning engines available");
+        }
+        if (StringUtils.isEmpty(content)) {
+            // skip empty content
+            return new ScanResult(null, true);
+        }
+        ScanResult result = null;
+        for (AvsScannerEnine engine : engines) {
+            result = engine.scanContent(content);
+            if (!result.isClean()) {
+                return result;
+            }
+        }
+        return result;
     }
 
 }

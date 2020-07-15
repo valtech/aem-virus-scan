@@ -28,7 +28,7 @@ import org.osgi.service.metatype.annotations.ObjectClassDefinition;
  * 
  * @author Roland Gruber
  */
-@ObjectClassDefinition(name = "ClamAV configuration")
+@ObjectClassDefinition(name = "AVS ClamAV configuration")
 @ProviderType
 public @interface ClamScannerConfig {
 
