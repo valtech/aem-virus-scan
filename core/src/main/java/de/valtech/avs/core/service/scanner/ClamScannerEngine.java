@@ -76,7 +76,7 @@ public class ClamScannerEngine implements AvsScannerEnine {
             String error = IOUtils.toString(err, Charset.forName("UTF-8"));
             in.close();
             err.close();
-
+            output = output.replace(tempFile.getPath(), "SCANNED_FILE");
             Files.delete(Paths.get(tempFile.getPath()));
             if ((returnCode == 0) && StringUtils.isBlank(error)) {
                 return new ScanResult(output, true);
