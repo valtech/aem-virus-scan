@@ -1,0 +1,20 @@
+
+.avs-scantool {
+	  margin: 25px;
+	  font-size: 1rem;
+}
+
+.avs-upload-table td {
+	  padding: 5px;
+}
+
+.avs-icon-color-ok {
+    color: #00AD31;
+}
+.avs-icon-color-fail {
+    color: #FA0A0A;
+}
+
+.avs-scanresult-title {
+	  font-size: 1.5rem;
+}

@@ -1,0 +1,40 @@
+<sly data-sly-use.model="de.valtech.avs.core.model.scan.ScanModel"/>
+<div class="avs-scantool">
+	<form method="post" enctype="multipart/form-data" action="page.external.html">
+		<table class="avs-upload-table">
+			<tr>
+				<td>File</td>
+				<td><input type="file" name="scanfile"></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td><input type="submit" name="doscan" value="Upload">
+				</td>
+			</tr>
+		</table>
+	</form>
+	
+	
+
+	<div data-sly-test="${model.scanDone}" class="avs-scan-result">
+	  <br><br>
+		<div data-sly-test="${!model.scanFailed && model.clean}" class="avs-scanresult-title">
+			<coral-icon icon="checkCircle" size="M" class="avs-icon-color-ok"></coral-icon>
+			The scanner reported no virus
+		</div>
+		<div data-sly-test="${!model.scanFailed && !model.clean}" class="avs-scanresult-title">
+			<coral-icon icon="closeCircle" size="M" class="avs-icon-color-fail"></coral-icon>
+			The scanner reported a virus
+		</div>
+    <div data-sly-test="${model.scanFailed}" class="avs-scanresult-title">
+      <coral-icon icon="closeCircle" size="M" class="avs-icon-color-fail"></coral-icon>
+      The scanner reported an error
+    </div>
+    <sly data-sly-test="${model.result}">
+	    <br>
+	    <br> Result:
+	    <pre class="avs-scan-result-text">${model.result}</pre>
+    </sly>
+	</div>
+
+</div>

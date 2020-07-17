@@ -25,7 +25,7 @@
         />
         <content
            jcr:primaryType="nt:unstructured"
-           sling:resourceType="granite/ui/components/coral/foundation/container"
+           sling:resourceType="valtech/avs/components/content/scan/content"
            >
         </content>
     </jcr:content>
