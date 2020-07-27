@@ -20,14 +20,12 @@ package de.valtech.avs.core.model.scan;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 
 import javax.annotation.PostConstruct;
+import javax.jcr.Session;
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
 
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.OSGiService;
@@ -67,10 +65,10 @@ public class ScanModel {
             Part filePart = request.getPart(FILE_PART);
             if (filePart != null) {
                 InputStream inputStream = filePart.getInputStream();
-                String fileContent = IOUtils.toString(inputStream, StandardCharsets.UTF_8.name());
-                if (!StringUtils.isEmpty(fileContent)) {
+                if (inputStream != null) {
                     scanDone = true;
-                    ScanResult result = avsService.scanContent(fileContent);
+                    String userId = request.getResourceResolver().adaptTo(Session.class).getUserID();
+                    ScanResult result = avsService.scan(inputStream, userId);
                     clean = result.isClean();
                     resultOutput = result.getOutput();
                 }

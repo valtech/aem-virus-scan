@@ -16,91 +16,73 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package de.valtech.avs.api.service.scanner;
+package de.valtech.avs.core.model.history;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
+import javax.annotation.PostConstruct;
+
+import org.apache.sling.api.resource.Resource;
+import org.apache.sling.models.annotations.Model;
+import org.apache.sling.models.annotations.injectorspecific.SlingObject;
+
+import de.valtech.avs.api.history.HistoryEntry;
 
 /**
- * Result of a single file scan.
- * 
+ * Model class for a single history item.
+ *
  * @author Roland Gruber
  */
-public class ScanResult {
+@Model(adaptables = Resource.class)
+public class HistoryDataItem {
 
-    private boolean clean;
+    private final DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-    private String output;
+    @SlingObject
+    private Resource resource;
 
-    private String path;
+    protected HistoryEntry history = null;
 
-    private String userId;
-
-    /**
-     * Constructor
-     * 
-     * @param output command output
-     * @param clean  file is clean
-     */
-    public ScanResult(String output, boolean clean) {
-        this.clean = clean;
-        this.output = output;
+    @PostConstruct
+    public void setup() {
+        history = resource.getValueMap().get(HistoryDataSource.ATTR_HISTORY, HistoryEntry.class);
     }
 
     /**
-     * Returns if the file is clean.
-     * 
-     * @return clean
+     * Returns the date of the scan.
+     *
+     * @return date
      */
-    public boolean isClean() {
-        return clean;
+    public String getDate() {
+        return format.format(history.getTime());
     }
 
     /**
-     * Returns the command output.
-     * 
+     * Returns the output of the scan.
+     *
      * @return output
      */
     public String getOutput() {
-        return output;
-    }
-
-    @Override
-    public String toString() {
-        return "Clean: " + Boolean.toString(clean) + "\n" + "Output: " + output;
+        return history.getOutput();
     }
 
     /**
-     * Returns the path of the scanned node.
-     * 
+     * Returns the path of the scan.
+     *
      * @return path
      */
     public String getPath() {
-        return path;
+        return history.getPath();
     }
 
     /**
-     * Sets the path of the scanned node.
-     * 
-     * @param path path
-     */
-    public void setPath(String path) {
-        this.path = path;
-    }
-
-    /**
-     * Sets the user id.
-     * 
-     * @param userId user id
-     */
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    /**
-     * Returns the user id.
-     * 
-     * @return user id
+     * Returns the user id that caused the scan.
+     *
+     * @return path
      */
     public String getUserId() {
-        return userId;
+        return history.getUserId();
     }
 
 }

@@ -2,7 +2,7 @@
 <jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:rep="internal"
           jcr:primaryType="nt:unstructured"
           jcr:title="Scan a File"
-          jcr:description="Scan a file to check if it contains a virus"
+          jcr:description="Upload a file to check if it contains a virus"
           href="/apps/valtech/avs/tools/scan/page.html"
           icon="search"
           id="avs-scan"

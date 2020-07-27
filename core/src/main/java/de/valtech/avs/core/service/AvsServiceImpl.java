@@ -18,10 +18,13 @@
  */
 package de.valtech.avs.core.service;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.sling.api.resource.LoginException;
+import org.apache.sling.api.resource.ResourceResolver;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
@@ -31,6 +34,8 @@ import de.valtech.avs.api.service.AvsException;
 import de.valtech.avs.api.service.AvsService;
 import de.valtech.avs.api.service.scanner.AvsScannerEnine;
 import de.valtech.avs.api.service.scanner.ScanResult;
+import de.valtech.avs.core.history.HistoryService;
+import de.valtech.avs.core.serviceuser.ServiceResourceResolverService;
 
 /**
  * AVS scan service.
@@ -39,6 +44,12 @@ import de.valtech.avs.api.service.scanner.ScanResult;
  */
 @Component(service = AvsService.class)
 public class AvsServiceImpl implements AvsService {
+
+    @Reference
+    private HistoryService historyService;
+
+    @Reference
+    private ServiceResourceResolverService serviceResourceResolverService;
 
     @Reference(cardinality = ReferenceCardinality.MULTIPLE, policy = ReferencePolicy.DYNAMIC, bind = "bindEngine",
             unbind = "unbindEngine")
@@ -63,20 +74,31 @@ public class AvsServiceImpl implements AvsService {
     }
 
     @Override
-    public ScanResult scanContent(String content) throws AvsException {
+    public ScanResult scan(InputStream content, String userId) throws AvsException {
+        return scan(content, userId, StringUtils.EMPTY);
+    }
+
+    @Override
+    public ScanResult scan(InputStream content, String userId, String path) throws AvsException {
         if (engines.isEmpty()) {
             throw new AvsException("No scanning engines available");
         }
-        if (StringUtils.isEmpty(content)) {
+        if (content == null) {
             // skip empty content
             return new ScanResult(null, true);
         }
         ScanResult result = null;
-        for (AvsScannerEnine engine : engines) {
-            result = engine.scanContent(content);
-            if (!result.isClean()) {
-                return result;
+        try (ResourceResolver resolver = serviceResourceResolverService.getServiceResourceResolver()) {
+            for (AvsScannerEnine engine : engines) {
+                result = engine.scan(content);
+                result.setPath(path);
+                result.setUserId(userId);
+                if (!result.isClean()) {
+                    historyService.createHistoryEntry(resolver, result);
+                }
             }
+        } catch (LoginException e) {
+            throw new AvsException("Unable to access service resolver", e);
         }
         return result;
     }

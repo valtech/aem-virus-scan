@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:rep="internal"
+          jcr:primaryType="rep:SystemUser"
+          jcr:uuid="49a21fc5-4453-34cb-b150-747948b25435"
+          rep:authorizableId="avs-service"
+          rep:principalName="avs-service"
+/>

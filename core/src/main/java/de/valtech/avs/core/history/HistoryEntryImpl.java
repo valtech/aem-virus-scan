@@ -16,89 +16,101 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package de.valtech.avs.api.service.scanner;
+package de.valtech.avs.core.history;
+
+import java.util.Date;
+
+import de.valtech.avs.api.history.HistoryEntry;
 
 /**
- * Result of a single file scan.
+ * Represents an entry in the AVS history.
  * 
  * @author Roland Gruber
  */
-public class ScanResult {
+public class HistoryEntryImpl implements HistoryEntry {
 
-    private boolean clean;
+    private Date time;
 
     private String output;
 
+    private boolean clean;
+
     private String path;
+
+    private String repositoryPath;
 
     private String userId;
 
     /**
      * Constructor
      * 
-     * @param output command output
-     * @param clean  file is clean
+     * @param time   time
+     * @param output output text
+     * @param clean  is clean
+     * @param path   path that was scanned
+     * @param userId user id
      */
-    public ScanResult(String output, boolean clean) {
-        this.clean = clean;
+    public HistoryEntryImpl(Date time, String output, boolean clean, String path, String repositoryPath, String userId) {
+        super();
+        this.time = time;
         this.output = output;
+        this.clean = clean;
+        this.path = path;
+        this.repositoryPath = repositoryPath;
+        this.userId = userId;
     }
 
-    /**
-     * Returns if the file is clean.
+    /*
+     * (non-Javadoc)
      * 
-     * @return clean
+     * @see de.valtech.avs.api.history.HistoryEntry#getTime()
      */
-    public boolean isClean() {
-        return clean;
+    @Override
+    public Date getTime() {
+        return time;
     }
 
-    /**
-     * Returns the command output.
+    /*
+     * (non-Javadoc)
      * 
-     * @return output
+     * @see de.valtech.avs.api.history.HistoryEntry#getOutput()
      */
+    @Override
     public String getOutput() {
         return output;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.valtech.avs.api.history.HistoryEntry#isClean()
+     */
     @Override
-    public String toString() {
-        return "Clean: " + Boolean.toString(clean) + "\n" + "Output: " + output;
+    public boolean isClean() {
+        return clean;
     }
 
-    /**
-     * Returns the path of the scanned node.
+    /*
+     * (non-Javadoc)
      * 
-     * @return path
+     * @see de.valtech.avs.api.history.HistoryEntry#getPath()
      */
+    @Override
     public String getPath() {
         return path;
     }
 
-    /**
-     * Sets the path of the scanned node.
+    /*
+     * (non-Javadoc)
      * 
-     * @param path path
+     * @see de.valtech.avs.api.history.HistoryEntry#getRepositoryPath()
      */
-    public void setPath(String path) {
-        this.path = path;
+    @Override
+    public String getRepositoryPath() {
+        return repositoryPath;
     }
 
-    /**
-     * Sets the user id.
-     * 
-     * @param userId user id
-     */
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    /**
-     * Returns the user id.
-     * 
-     * @return user id
-     */
+    @Override
     public String getUserId() {
         return userId;
     }

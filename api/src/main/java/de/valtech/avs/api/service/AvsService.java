@@ -18,6 +18,8 @@
  */
 package de.valtech.avs.api.service;
 
+import java.io.InputStream;
+
 import org.osgi.annotation.versioning.ProviderType;
 
 import de.valtech.avs.api.service.scanner.ScanResult;
@@ -34,9 +36,21 @@ public interface AvsService {
      * Scans the given content for viruses.
      * 
      * @param content content
+     * @param userId  user name
      * @return scan result
      * @throws AvsException error during scan
      */
-    public ScanResult scanContent(String content) throws AvsException;
+    public ScanResult scan(InputStream content, String userId) throws AvsException;
+
+    /**
+     * Scans the given content for viruses.
+     * 
+     * @param content content
+     * @param userId  user name
+     * @param path    node path to add in history
+     * @return scan result
+     * @throws AvsException error during scan
+     */
+    public ScanResult scan(InputStream content, String userId, String path) throws AvsException;
 
 }

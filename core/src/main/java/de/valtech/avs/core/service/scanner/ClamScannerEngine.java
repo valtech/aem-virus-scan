@@ -19,12 +19,12 @@
 package de.valtech.avs.core.service.scanner;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -63,7 +63,7 @@ public class ClamScannerEngine implements AvsScannerEnine {
     }
 
     @Override
-    public ScanResult scanContent(String content) throws AvsException {
+    public ScanResult scan(InputStream content) throws AvsException {
         try {
             File tempFile = createTemporaryFile(content);
             Runtime runtime = Runtime.getRuntime();
@@ -96,11 +96,10 @@ public class ClamScannerEngine implements AvsScannerEnine {
      * @return file handle
      * @throws IOException error creating file
      */
-    private File createTemporaryFile(String content) throws IOException {
+    private File createTemporaryFile(InputStream content) throws IOException {
         File file = File.createTempFile("valtech-avs", ".tmp");
-        try (FileWriter writer = new FileWriter(file)) {
-            writer.write(content);
-        }
+        Files.copy(content, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        content.close();
         return file;
     }
 

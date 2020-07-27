@@ -16,30 +16,60 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package de.valtech.avs.api.service.scanner;
+package de.valtech.avs.api.history;
 
-import java.io.InputStream;
+import java.util.Date;
 
-import org.osgi.annotation.versioning.ConsumerType;
-
-import de.valtech.avs.api.service.AvsException;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
- * Interface for scanner engines. Do not use directly for scanning but to implement new scanner
- * engines.
+ * Represents an entry in the AVS history.
  * 
  * @author Roland Gruber
  */
-@ConsumerType
-public interface AvsScannerEnine {
+@ProviderType
+public interface HistoryEntry {
 
     /**
-     * Scans the given content for viruses.
+     * Returns the scan time.
      * 
-     * @param content content
-     * @return scan result
-     * @throws AvsException error during scan
+     * @return time
      */
-    ScanResult scan(InputStream content) throws AvsException;
+    Date getTime();
+
+    /**
+     * Returns the scan output.
+     * 
+     * @return output
+     */
+    String getOutput();
+
+    /**
+     * Returns if the file was clean.
+     * 
+     * @return clean
+     */
+    boolean isClean();
+
+    /**
+     * Returns the scanned node path if available.
+     * 
+     * @return path
+     */
+    String getPath();
+
+    /**
+     * Path in repository.
+     * 
+     * @return path
+     */
+    String getRepositoryPath();
+
+    /**
+     * Returns the user name.
+     * 
+     * @return user name
+     */
+    String getUserId();
 
 }

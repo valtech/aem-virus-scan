@@ -16,49 +16,40 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package de.valtech.avs.core.jmx;
+package de.valtech.avs.core.serviceuser;
 
-import java.io.ByteArrayInputStream;
+import java.util.HashMap;
+import java.util.Map;
 
-import javax.management.NotCompliantMBeanException;
-
+import org.apache.sling.api.resource.LoginException;
+import org.apache.sling.api.resource.ResourceResolver;
+import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
-import com.adobe.granite.jmx.annotation.AnnotatedStandardMBean;
-
-import de.valtech.avs.api.service.AvsException;
-import de.valtech.avs.api.service.AvsService;
-
 /**
- * JMX service to check virus scan.
+ * Provides the service resource resolver.
  *
  * @author Roland Gruber
  */
-@Component(service = AntiVirusScannerMBean.class, immediate = true,
-        property = {"jmx.objectname=de.valtech:type=AVS", "pattern=/.*"})
-public class AntiVirusScannerMBeanImpl extends AnnotatedStandardMBean implements AntiVirusScannerMBean {
+@Component(service = ServiceResourceResolverService.class)
+public class ServiceResourceResolverService {
+
+    private static final String SUBSERVICE_AVS = "avs";
 
     @Reference
-    private AvsService scanner;
+    ResourceResolverFactory resolverFactory;
 
     /**
-     * Constructor
-     * 
-     * @throws NotCompliantMBeanException exception
+     * Returns a resource resolver of the AVS service user.
+     *
+     * @return service resource resolver
+     * @throws LoginException error opening resource resolver
      */
-    public AntiVirusScannerMBeanImpl() throws NotCompliantMBeanException {
-        super(AntiVirusScannerMBean.class);
-    }
-
-    @Override
-    public String scanContent(String content) {
-        ByteArrayInputStream stream = new ByteArrayInputStream(content.getBytes());
-        try {
-            return scanner.scan(stream, "JMX").toString();
-        } catch (AvsException e) {
-            return "Error: " + e.getMessage();
-        }
+    public ResourceResolver getServiceResourceResolver() throws LoginException {
+        final Map<String, Object> authenticationInfo = new HashMap<>();
+        authenticationInfo.put(ResourceResolverFactory.SUBSERVICE, SUBSERVICE_AVS);
+        return resolverFactory.getServiceResourceResolver(authenticationInfo);
     }
 
 }

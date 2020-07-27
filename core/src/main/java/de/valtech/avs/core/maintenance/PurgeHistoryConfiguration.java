@@ -16,30 +16,24 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package de.valtech.avs.api.service.scanner;
+package de.valtech.avs.core.maintenance;
 
-import java.io.InputStream;
-
-import org.osgi.annotation.versioning.ConsumerType;
-
-import de.valtech.avs.api.service.AvsException;
+import org.osgi.annotation.versioning.ProviderType;
+import org.osgi.service.metatype.annotations.AttributeDefinition;
+import org.osgi.service.metatype.annotations.AttributeType;
+import org.osgi.service.metatype.annotations.ObjectClassDefinition;
 
 /**
- * Interface for scanner engines. Do not use directly for scanning but to implement new scanner
- * engines.
- * 
+ * Configuration for purge task.
+ *
  * @author Roland Gruber
  */
-@ConsumerType
-public interface AvsScannerEnine {
+@ObjectClassDefinition(name = "AVS Purge history configuration")
+@ProviderType
+public @interface PurgeHistoryConfiguration {
 
-    /**
-     * Scans the given content for viruses.
-     * 
-     * @param content content
-     * @return scan result
-     * @throws AvsException error during scan
-     */
-    ScanResult scan(InputStream content) throws AvsException;
+    @AttributeDefinition(type = AttributeType.INTEGER, name = "Days to keep",
+            description = "Entries younger than this will not be removed")
+    int daysToKeep();
 
 }
