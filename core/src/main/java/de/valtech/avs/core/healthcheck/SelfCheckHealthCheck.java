@@ -27,6 +27,7 @@ import org.apache.sling.hc.util.FormattingResultLog;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
+import de.valtech.avs.api.service.AvsService;
 import de.valtech.avs.core.serviceuser.ServiceResourceResolverService;
 
 /**
@@ -41,6 +42,9 @@ public class SelfCheckHealthCheck implements HealthCheck {
     @Reference
     private ServiceResourceResolverService resolverService;
 
+    @Reference
+    private AvsService avsService;
+
     @Override
     public Result execute() {
         final FormattingResultLog resultLog = new FormattingResultLog();
@@ -48,6 +52,7 @@ public class SelfCheckHealthCheck implements HealthCheck {
         if (resultLog.getAggregateStatus().equals(Status.CRITICAL)) {
             return new Result(resultLog);
         }
+        checkActiveScannersAvailable(resultLog);
         return new Result(resultLog);
     }
 
@@ -65,6 +70,19 @@ public class SelfCheckHealthCheck implements HealthCheck {
             resultLog.info("Service user ok");
         } catch (LoginException e) {
             resultLog.critical("Unable to open service resource resolver {}", e.getMessage());
+        }
+    }
+
+    /**
+     * Checks if there is at least one scan engine configured.
+     * 
+     * @param resultLog result log
+     */
+    private void checkActiveScannersAvailable(FormattingResultLog resultLog) {
+        if (!avsService.hasActiveScanEngines()) {
+            resultLog.critical("No active scan engines available");
+        } else {
+            resultLog.info("At least one active scan engine available");
         }
     }
 

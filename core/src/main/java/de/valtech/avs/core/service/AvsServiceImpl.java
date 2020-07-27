@@ -103,4 +103,9 @@ public class AvsServiceImpl implements AvsService {
         return result;
     }
 
+    @Override
+    public boolean hasActiveScanEngines() {
+        return !engines.isEmpty();
+    }
+
 }

@@ -53,4 +53,11 @@ public interface AvsService {
      */
     public ScanResult scan(InputStream content, String userId, String path) throws AvsException;
 
+    /**
+     * Returns if there is at least one active scan engine.
+     * 
+     * @return scan engines available
+     */
+    public boolean hasActiveScanEngines();
+
 }
