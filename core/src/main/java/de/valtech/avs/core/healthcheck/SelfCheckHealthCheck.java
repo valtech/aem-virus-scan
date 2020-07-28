@@ -18,6 +18,8 @@
  */
 package de.valtech.avs.core.healthcheck;
 
+import java.io.ByteArrayInputStream;
+
 import org.apache.sling.api.resource.LoginException;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.hc.api.HealthCheck;
@@ -27,7 +29,9 @@ import org.apache.sling.hc.util.FormattingResultLog;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
+import de.valtech.avs.api.service.AvsException;
 import de.valtech.avs.api.service.AvsService;
+import de.valtech.avs.api.service.scanner.ScanResult;
 import de.valtech.avs.core.serviceuser.ServiceResourceResolverService;
 
 /**
@@ -83,6 +87,26 @@ public class SelfCheckHealthCheck implements HealthCheck {
             resultLog.critical("No active scan engines available");
         } else {
             resultLog.info("At least one active scan engine available");
+            checkSampleScan(resultLog);
+        }
+    }
+
+    /**
+     * Performs a test scan.
+     * 
+     * @param resultLog result log
+     */
+    private void checkSampleScan(FormattingResultLog resultLog) {
+        ByteArrayInputStream stream = new ByteArrayInputStream(SelfCheckHealthCheck.class.getName().getBytes());
+        try {
+            ScanResult result = avsService.scan(stream, "HEALTH CHECK");
+            if (result.isClean()) {
+                resultLog.info("Test scan ok");
+            } else {
+                resultLog.critical("False positive result: {}", result.getOutput());
+            }
+        } catch (AvsException e) {
+            resultLog.critical("Error running test scan: {}", e.getMessage());
         }
     }
 
