@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.jcr.Session;
 import javax.servlet.Filter;
@@ -45,8 +46,10 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.osgi.framework.Constants;
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.metatype.annotations.Designate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,8 +64,8 @@ import de.valtech.avs.core.serviceuser.ServiceResourceResolverService;
  * 
  * @author Roland Gruber
  */
-@Component(service = Filter.class, name = "AVS POST Filter",
-        property = {"sling.filter.scope=REQUEST", Constants.SERVICE_RANKING + ":Integer=50000"})
+@Component(service = Filter.class, property = {"sling.filter.scope=REQUEST", Constants.SERVICE_RANKING + ":Integer=50000"})
+@Designate(ocd = AvsPostFilterConfig.class)
 public class AvsPostFilter implements Filter {
 
     private static final String REQUEST_PARTS = "request-parts-iterator";
@@ -78,12 +81,36 @@ public class AvsPostFilter implements Filter {
     @Reference
     private ServiceResourceResolverService serviceResolverService;
 
+    private List<Pattern> includePatterns = new ArrayList<>();
+    private List<Pattern> excludePatterns = new ArrayList<>();
+
+    /**
+     * Setup service
+     * 
+     * @param avconfig configuration
+     */
+    @Activate
+    public void activate(AvsPostFilterConfig config) {
+        excludePatterns = new ArrayList<>();
+        if (config.excludePatterns() != null) {
+            for (String patternString : config.excludePatterns()) {
+                excludePatterns.add(Pattern.compile(patternString));
+            }
+        }
+        includePatterns = new ArrayList<>();
+        if (config.includePatterns() != null) {
+            for (String patternString : config.includePatterns()) {
+                includePatterns.add(Pattern.compile(patternString));
+            }
+        }
+    }
+
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
         SlingHttpServletRequest slingRequest = (SlingHttpServletRequest) request;
         String contentType = slingRequest.getContentType();
-        if (!"POST".equals(slingRequest.getMethod()) || !isMultipartRequest(contentType)) {
+        if (!"POST".equals(slingRequest.getMethod()) || !isMultipartRequest(contentType) || isUrlToIgnore(slingRequest)) {
             chain.doFilter(request, response);
             return;
         }
@@ -97,7 +124,7 @@ public class AvsPostFilter implements Filter {
         while (parts.hasNext()) {
             Part part = parts.next();
             String partContentType = part.getContentType();
-            if (StringUtils.isEmpty(partContentType) || !partContentType.contains("stream")) {
+            if (StringUtils.isEmpty(partContentType)) {
                 String partContent = IOUtils.toString(part.getInputStream(), StandardCharsets.UTF_8.name());
                 newParts.add(new PartWrapper(part, partContent.getBytes()));
                 continue;
@@ -120,6 +147,9 @@ public class AvsPostFilter implements Filter {
             String userId = slingRequest.getResourceResolver().adaptTo(Session.class).getUserID();
             ScanResult result = avsService.scan(combinedStream, userId);
             if (!result.isClean()) {
+                for (File file : parameterFiles) {
+                    file.delete();
+                }
                 throw new ServletException("Uploaded file contains a virus");
             }
         } catch (AvsException e) {
@@ -140,6 +170,30 @@ public class AvsPostFilter implements Filter {
             return false;
         }
         return contentType.contains(FileUploadBase.MULTIPART_FORM_DATA);
+    }
+
+    /**
+     * Checks if the request URL should be ignored from checking.
+     * 
+     * @param request request
+     * @return ignore
+     */
+    protected boolean isUrlToIgnore(SlingHttpServletRequest request) {
+        String url = request.getRequestURI();
+        for (Pattern pattern : excludePatterns) {
+            if (pattern.matcher(url).matches()) {
+                return true;
+            }
+        }
+        if (includePatterns.isEmpty()) {
+            return false;
+        }
+        for (Pattern pattern : includePatterns) {
+            if (pattern.matcher(url).matches()) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
