@@ -32,6 +32,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -53,10 +54,13 @@ import org.osgi.service.metatype.annotations.Designate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.adobe.granite.security.user.UserProperties;
+
 import de.valtech.avs.api.service.AvsException;
 import de.valtech.avs.api.service.AvsService;
 import de.valtech.avs.api.service.scanner.ScanResult;
 import de.valtech.avs.core.history.HistoryService;
+import de.valtech.avs.core.mail.AvsNotificationMailer;
 import de.valtech.avs.core.serviceuser.ServiceResourceResolverService;
 
 /**
@@ -81,8 +85,13 @@ public class AvsPostFilter implements Filter {
     @Reference
     private ServiceResourceResolverService serviceResolverService;
 
+    @Reference
+    private AvsNotificationMailer mailer;
+
     private List<Pattern> includePatterns = new ArrayList<>();
     private List<Pattern> excludePatterns = new ArrayList<>();
+
+    private AvsPostFilterConfig config;
 
     /**
      * Setup service
@@ -103,6 +112,7 @@ public class AvsPostFilter implements Filter {
                 includePatterns.add(Pattern.compile(patternString));
             }
         }
+        this.config = config;
     }
 
     @Override
@@ -121,6 +131,7 @@ public class AvsPostFilter implements Filter {
         }
         List<File> parameterFiles = new ArrayList<>();
         List<Part> newParts = new ArrayList<>();
+        List<String> fileNames = new ArrayList<>();
         while (parts.hasNext()) {
             Part part = parts.next();
             String partContentType = part.getContentType();
@@ -128,6 +139,9 @@ public class AvsPostFilter implements Filter {
                 String partContent = IOUtils.toString(part.getInputStream(), StandardCharsets.UTF_8.name());
                 newParts.add(new PartWrapper(part, partContent.getBytes()));
                 continue;
+            }
+            if (StringUtils.isNotEmpty(part.getSubmittedFileName())) {
+                fileNames.add(part.getSubmittedFileName());
             }
             InputStream partStream = part.getInputStream();
             File file = File.createTempFile("valtech-avs", ".tmp");
@@ -142,14 +156,20 @@ public class AvsPostFilter implements Filter {
         for (File file : parameterFiles) {
             streams.add(new FileInputStream(file));
         }
+        if (streams.isEmpty()) {
+            chain.doFilter(request, response);
+            return;
+        }
         SequenceInputStream combinedStream = new SequenceInputStream(Collections.enumeration(streams));
         try {
-            String userId = slingRequest.getResourceResolver().adaptTo(Session.class).getUserID();
+            Session session = slingRequest.getResourceResolver().adaptTo(Session.class);
+            String userId = (session != null) ? session.getUserID() : StringUtils.EMPTY;
             ScanResult result = avsService.scan(combinedStream, userId);
             if (!result.isClean()) {
                 for (File file : parameterFiles) {
                     file.delete();
                 }
+                sendEmail(slingRequest, result, fileNames);
                 throw new ServletException("Uploaded file contains a virus");
             }
         } catch (AvsException e) {
@@ -194,6 +214,29 @@ public class AvsPostFilter implements Filter {
             }
         }
         return true;
+    }
+
+    /**
+     * Sends out an email to notify the author about the virus upload.
+     * 
+     * @param slingRequest request
+     * @param result       scan result
+     * @param fileNames    file names
+     */
+    private void sendEmail(SlingHttpServletRequest slingRequest, ScanResult result, List<String> fileNames) {
+        UserProperties properties = slingRequest.adaptTo(UserProperties.class);
+        List<String> emails = new ArrayList<>();
+        try {
+            if ((properties != null) && StringUtils.isNotEmpty(properties.getProperty(UserProperties.EMAIL))) {
+                emails.add(properties.getProperty(UserProperties.EMAIL));
+            }
+        } catch (RepositoryException e) {
+            LOG.error("Cannot read email of user", e);
+        }
+        if (emails.isEmpty()) {
+            return;
+        }
+        mailer.sendEmail(emails, String.join(", ", fileNames), result);
     }
 
     @Override

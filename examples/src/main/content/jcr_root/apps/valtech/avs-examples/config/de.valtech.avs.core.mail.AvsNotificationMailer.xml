@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" jcr:primaryType="sling:OsgiConfig"
+   additionalRecipients="root@localhost"
+   subject="A virus was found"
+   body="Dear Sir or Madam,&lt;br&gt;&lt;br&gt;a virus was detected in your file upload.&lt;br&gt;&lt;br&gt;File name: ${FILE_NAME}&lt;br&gt;Scan report: ${SCAN_OUTPUT}"
+   isHtml="{Boolean}true"
+   from="no-reply@example.com"
+/>
