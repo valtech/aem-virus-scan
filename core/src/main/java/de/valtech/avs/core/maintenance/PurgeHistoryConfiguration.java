@@ -34,6 +34,6 @@ public @interface PurgeHistoryConfiguration {
 
     @AttributeDefinition(type = AttributeType.INTEGER, name = "Days to keep",
             description = "Entries younger than this will not be removed")
-    int daysToKeep();
+    int daysToKeep() default 90;
 
 }

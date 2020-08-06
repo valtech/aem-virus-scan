@@ -38,7 +38,7 @@ public @interface ClamScannerConfig {
      * @return command
      */
     @AttributeDefinition(name = "Scan command",
-            description = "Command to run to scan a single file. The file name will be added at the end of the command.",
+            description = "Command to scan a single file. The file name will be added at the end of the command.",
             type = AttributeType.STRING)
     String command();
 
