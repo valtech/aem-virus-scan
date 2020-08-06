@@ -1,19 +1,16 @@
 language: java
-
 jdk:
-  - openjdk9
-
+- openjdk9
 addons:
   sonarcloud:
-    organization: "valtech_avs"
-    token:
-      secure: TODO
-
+    organization: valtech_avs
 script:
-  - mvn test javadoc:javadoc -B
-  - sonar-scanner
-
+- mvn test javadoc:javadoc -B
+- sonar-scanner
 cache:
   directories:
-    - '$HOME/.sonar/cache'
-    - '$HOME/.m2'
+  - "$HOME/.sonar/cache"
+  - "$HOME/.m2"
+env:
+  global:
+    secure: jAVDdEYj3Nfatl6AceGgMpAangeIHaUQdYL0u40I0FJHkkC6GxoaHf1TMy3k74nRobTwN4HDctQT3/nczhStnKZ20aE19oppYzvjhrAmhddlMTbwvn2Wlh3hQX0Ejqc6PoOrqyUlpZdHTXS0vW7dVzpTyaxtAw+z8RCCIe/+kZeSF3Noy1dsB+dBI657tC2TIV+sfXref7v6Ly1BwTJp1827u/OE9d+S3PR/GwtAKNfQQFODj5W0OLmFaMf7pEEPML4czX1AfaxYBrW9d1wmeTeoTvkU6AkeBlzHWQUM9XinObIIr/PahUZExX9Yf/K1GWHyoAEgsUVOOJe/mqEo1JQG2LNhyVWBrIcAXdFo0gjYPudIBc7n+IVnq7OZjjB+cg+I2yBdHSWwkaHHgeD4tpp8d/dJMmoMP8gBv7a10W5VnuHLxv2/j9y5Z9HGUoQW7mZ4X7l8eeCra/Qtt+yIdx7wZ99FCkt7FXfyjWSCu54xZQFRdCu2JTvE6ZFLAYcGUlszMltqcJmLdUIh24zAvqHVcKSnzBTmHoax1897i4m/yM5qoW6Tvak1UcwG/mWkzNTZaMr998PR+49CtbRfKjoc/HvqvxA3T8IhXfmbh4Ee9NZcpWmUZeFBKvh0HBXP8NRmpSpdNFrKX0x1lbpH8eZwLuFS1jo7Pz1XHYgscX0=
