@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
@@ -72,8 +73,8 @@ public class ClamScannerEngine implements AvsScannerEnine {
             InputStream in = process.getInputStream();
             InputStream err = process.getErrorStream();
             int returnCode = process.waitFor();
-            String output = IOUtils.toString(in, Charset.forName("UTF-8"));
-            String error = IOUtils.toString(err, Charset.forName("UTF-8"));
+            String output = IOUtils.toString(in, Charset.forName(StandardCharsets.UTF_8.name()));
+            String error = IOUtils.toString(err, Charset.forName(StandardCharsets.UTF_8.name()));
             in.close();
             err.close();
             output = output.replace(tempFile.getPath(), "SCANNED_FILE");

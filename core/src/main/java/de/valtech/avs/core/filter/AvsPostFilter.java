@@ -91,8 +91,6 @@ public class AvsPostFilter implements Filter {
     private List<Pattern> includePatterns = new ArrayList<>();
     private List<Pattern> excludePatterns = new ArrayList<>();
 
-    private AvsPostFilterConfig config;
-
     /**
      * Setup service
      * 
@@ -112,7 +110,6 @@ public class AvsPostFilter implements Filter {
                 includePatterns.add(Pattern.compile(patternString));
             }
         }
-        this.config = config;
     }
 
     @Override
@@ -167,7 +164,9 @@ public class AvsPostFilter implements Filter {
             ScanResult result = avsService.scan(combinedStream, userId);
             if (!result.isClean()) {
                 for (File file : parameterFiles) {
-                    file.delete();
+                    if (!file.delete()) {
+                        LOG.warn("Unable to remove temp file {}", file.getPath());
+                    }
                 }
                 sendEmail(slingRequest, result, fileNames);
                 throw new ServletException("Uploaded file contains a virus");
