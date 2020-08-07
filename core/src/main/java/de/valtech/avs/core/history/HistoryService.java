@@ -75,7 +75,6 @@ public class HistoryService {
      *
      * @param resolver resource resolver
      * @param result   scan result
-     * @return history entry
      * @throws AvsException error setting up entry
      */
     public void createHistoryEntry(ResourceResolver resolver, ScanResult result) throws AvsException {
@@ -358,7 +357,7 @@ public class HistoryService {
      * Self test of history. Checks if the history node exists.
      * 
      * @param resolver resource resolver
-     * @throws AecuException check failed
+     * @throws AvsException check failed
      */
     public void selfCheck(ResourceResolver resolver) throws AvsException {
         Resource base = resolver.getResource(HISTORY_BASE);

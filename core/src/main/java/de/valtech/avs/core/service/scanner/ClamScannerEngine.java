@@ -55,7 +55,7 @@ public class ClamScannerEngine implements AvsScannerEnine {
     /**
      * Setup service
      * 
-     * @param avconfig configuration
+     * @param config configuration
      */
     @Activate
     public void activate(ClamScannerConfig config) {

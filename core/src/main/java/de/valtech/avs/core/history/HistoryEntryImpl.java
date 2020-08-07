@@ -44,11 +44,12 @@ public class HistoryEntryImpl implements HistoryEntry {
     /**
      * Constructor
      * 
-     * @param time   time
-     * @param output output text
-     * @param clean  is clean
-     * @param path   path that was scanned
-     * @param userId user id
+     * @param time           time
+     * @param output         output text
+     * @param clean          is clean
+     * @param path           path that was scanned
+     * @param repositoryPath path in crx
+     * @param userId         user id
      */
     public HistoryEntryImpl(Date time, String output, boolean clean, String path, String repositoryPath, String userId) {
         super();

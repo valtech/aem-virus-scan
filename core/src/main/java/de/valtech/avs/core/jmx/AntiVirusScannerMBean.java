@@ -39,6 +39,7 @@ public interface AntiVirusScannerMBean {
      * 
      * @param content content
      * @return result
+     * @throws AvsException error during scan
      */
     @Description("Scans a text content")
     String scanContent(@Name("Content") @Description("Text content to be scanned") String content) throws AvsException;

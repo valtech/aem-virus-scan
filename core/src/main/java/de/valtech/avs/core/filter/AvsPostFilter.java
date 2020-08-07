@@ -96,7 +96,7 @@ public class AvsPostFilter implements Filter {
     /**
      * Setup service
      * 
-     * @param avconfig configuration
+     * @param config configuration
      */
     @Activate
     public void activate(AvsPostFilterConfig config) {
