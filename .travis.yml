@@ -3,7 +3,7 @@ jdk:
 - openjdk9
 addons:
   sonarcloud:
-    organization: valtech_avs
+    organization: valtech-avs
 script:
 - mvn test javadoc:javadoc -B
 - sonar-scanner
