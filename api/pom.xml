@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>de.valtech.avs</groupId>
 		<artifactId>avs</artifactId>
-		<version>0.9.0</version>
+		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>avs.api</artifactId>
