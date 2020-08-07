@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root
+        xmlns:jcr="http://www.jcp.org/jcr/1.0"
+        xmlns:rep="internal"
+        xmlns:sling="http://sling.apache.org/jcr/sling/1.0"
+        xmlns:granite="http://www.adobe.com/jcr/granite/1.0"
+        jcr:primaryType="cq:Page">
+    <jcr:content
+            jcr:primaryType="nt:unstructured"
+            jcr:title="AEM Virus Scan - History"
+            consoleId="avs-history"
+            sling:resourceType="granite/ui/components/shell/collectionpage"
+            targetCollection=".avs-history-entries"
+            modeGroup="avs-history-entries"
+			      granite:class="avs-history-table"
+			      contentPath="${requestPathInfo.suffix}"
+    >
+        <head jcr:primaryType="nt:unstructured">
+            <clientlibs
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/includeclientlibs"
+                    categories="[coralui3,granite.ui.coral.foundation,avs.editor]"
+            />
+        </head>
+        <title
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="valtech/avs/components/content/history/title"
+        />
+        <views jcr:primaryType="nt:unstructured">
+
+				            <list
+				                    jcr:primaryType="nt:unstructured"
+				                    layoutId="list"
+				                    sling:resourceType="granite/ui/components/coral/foundation/table"
+				                    limit="50"
+				                    src="/apps/valtech/avs/tools/history/page/jcr:content/views/list{.offset,limit}.html?wcmmode=disabled"
+				                    path="${requestPathInfo.suffix}"
+				                    sortMode="remote"
+				                    stateId="shell.collectionpage"
+				                    modeGroup="avs-history-entries"
+				                    granite:rel="avs-history-entries"
+				            >
+				                <columns jcr:primaryType="nt:unstructured">
+				                    <date
+				                            jcr:primaryType="nt:unstructured"
+				                            jcr:title="Date"
+				                    />
+                            <user
+                                    jcr:primaryType="nt:unstructured"
+                                    jcr:title="User"
+                            />
+				                    <path
+				                            jcr:primaryType="nt:unstructured"
+				                            jcr:title="Path"
+				                    />
+                            <output
+                                    jcr:primaryType="nt:unstructured"
+                                    jcr:title="Output"
+                            />
+				                </columns>
+				                <datasource
+				                        jcr:primaryType="nt:unstructured"
+				                        path="${requestPathInfo.suffix}"
+				                        sling:resourceType="valtech/avs/tools/history/datasource"
+				                        itemResourceType="valtech/avs/tools/history/dataitem"
+										limit="${empty requestPathInfo.selectors[1] ? &quot;50&quot; : requestPathInfo.selectors[1]}"
+										offset="${requestPathInfo.selectors[0]}"
+				                />
+				            </list>
+
+        </views>
+    </jcr:content>
+</jcr:root>
