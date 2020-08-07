@@ -158,10 +158,5 @@
 			<groupId>com.google.code.findbugs</groupId>
 			<artifactId>jsr305</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>de.valtech.avs</groupId>
-			<artifactId>avs.api</artifactId>
-			<version>${project.version}</version>
-		</dependency>
 	</dependencies>
 </project>
