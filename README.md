@@ -171,7 +171,7 @@ You can access them on the [status page](http://localhost:4502/libs/granite/oper
 
 # API Documentation
 
-TODO
+https://valtech.github.io/aem-virus-scan/
 
 <a name="license"></a>
 
