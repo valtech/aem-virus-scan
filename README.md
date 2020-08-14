@@ -26,7 +26,7 @@ AVS requires Java 8 and AEM 6.4 or above.
 
 # Installation
 
-You can download the package from [Maven Central](http://repo1.maven.org/maven2/de/valtech/avs/avs.ui.apps/) or our [releases section](https://github.com/valtech/aem-virus-scan/releases). The avs.ui.apps package will install the AVS software.
+You can download the package from [Maven Central](https://repo1.maven.org/maven2/de/valtech/avs/avs.ui.apps/) or our [releases section](https://github.com/valtech/aem-virus-scan/releases). The avs.ui.apps package will install the AVS software.
 
 ```xml
         <dependency>
