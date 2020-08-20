@@ -90,7 +90,7 @@ public class AvsServiceImpl implements AvsService {
         ScanResult result = null;
         try (ResourceResolver resolver = serviceResourceResolverService.getServiceResourceResolver()) {
             for (AvsScannerEnine engine : engines) {
-                result = engine.scan(content);
+                result = engine.scan(content, path);
                 result.setPath(path);
                 result.setUserId(userId);
                 if (!result.isClean()) {

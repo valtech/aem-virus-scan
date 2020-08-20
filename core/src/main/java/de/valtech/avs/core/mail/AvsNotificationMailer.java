@@ -81,9 +81,9 @@ public class AvsNotificationMailer {
         VelocityContext context = new VelocityContext();
         StringWriter writer = new StringWriter();
         if (fileName != null) {
-            context.put("FILE_NAME", fileName);
+            context.put("FILE_NAME", escape(fileName));
         }
-        context.put("SCAN_OUTPUT", result.getOutput());
+        context.put("SCAN_OUTPUT", escape(result.getOutput()));
         ve.evaluate(context, writer, "AvsNotificationMailer", getBodyText());
         String body = writer.toString();
         String subject = getSubject();
@@ -96,6 +96,17 @@ public class AvsNotificationMailer {
         } catch (MessagingException | EmailException e) {
             LOG.error("Unable to send virus notification", e);
         }
+    }
+
+    /**
+     * Escapes HTML special characters.
+     * 
+     * @param input input data
+     * @return escaped data
+     */
+    private String escape(String input) {
+        Html2TextConverter converter = new Html2TextConverter(input);
+        return converter.getText();
     }
 
     /**

@@ -161,7 +161,7 @@ public class AvsPostFilter implements Filter {
         try {
             Session session = slingRequest.getResourceResolver().adaptTo(Session.class);
             String userId = (session != null) ? session.getUserID() : StringUtils.EMPTY;
-            ScanResult result = avsService.scan(combinedStream, userId);
+            ScanResult result = avsService.scan(combinedStream, userId, String.join(", ", fileNames));
             if (!result.isClean()) {
                 for (File file : parameterFiles) {
                     if (!file.delete()) {
