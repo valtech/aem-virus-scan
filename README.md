@@ -11,6 +11,8 @@ Features:
     * Clam AV
 * Health checks
 
+Sample test virus files can be downloaded at [eicar](http://eicar.com/).
+
 <a name="requirements"></a>
 
 # Requirements

@@ -1,6 +1,6 @@
 # AEM Server Setup
 
-By default AEM is expected to listen on localhost on port 5702. This setting can be overridden by adding parameters:
+By default AEM is expected to listen on localhost on port 4502. This setting can be overridden by adding parameters:
 * -Daem.port=4502
 * -Daem.host=localhost
 * -Daem.publish.port=4503
