@@ -16,34 +16,37 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package de.valtech.avs.api.service.scanner;
+package de.valtech.avs.core.mail;
 
-import java.io.InputStream;
+import static org.junit.Assert.assertEquals;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import org.osgi.annotation.versioning.ConsumerType;
-
-import de.valtech.avs.api.service.AvsException;
+import org.junit.Test;
 
 /**
- * Interface for scanner engines. Do not use directly for scanning but to implement new scanner
- * engines.
+ * Tests Html2TextConverter
  * 
  * @author Roland Gruber
  */
-@ConsumerType
-public interface AvsScannerEnine {
+public class Html2TextConverterTest {
 
-    /**
-     * Scans the given content for viruses.
-     * 
-     * @param content  content
-     * @param fileName file name
-     * @return scan result
-     * @throws AvsException error during scan
-     */
-    ScanResult scan(@Nonnull InputStream content, @Nullable String fileName) throws AvsException;
+    @Test
+    public void getText_html() {
+        assertEquals("some test", convert("<b>some<x> test<z>"));
+    }
+
+    @Test
+    public void getText_noHtml() {
+        assertEquals("some test", convert("some test"));
+    }
+
+    @Test
+    public void getText_null() {
+        assertEquals("", convert(null));
+    }
+
+    private Object convert(String input) {
+        Html2TextConverter converter = new Html2TextConverter(input);
+        return converter.getText();
+    }
 
 }

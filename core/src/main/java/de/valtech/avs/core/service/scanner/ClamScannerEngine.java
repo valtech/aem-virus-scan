@@ -64,7 +64,7 @@ public class ClamScannerEngine implements AvsScannerEnine {
     }
 
     @Override
-    public ScanResult scan(InputStream content) throws AvsException {
+    public ScanResult scan(InputStream content, String fileName) throws AvsException {
         try {
             File tempFile = createTemporaryFile(content);
             Runtime runtime = Runtime.getRuntime();
@@ -77,7 +77,11 @@ public class ClamScannerEngine implements AvsScannerEnine {
             String error = IOUtils.toString(err, Charset.forName(StandardCharsets.UTF_8.name()));
             in.close();
             err.close();
-            output = output.replace(tempFile.getPath(), "SCANNED_FILE");
+            if (StringUtils.isBlank(fileName)) {
+                output = output.replace(tempFile.getPath(), "SCANNED_FILE");
+            } else {
+                output = output.replace(tempFile.getPath(), fileName);
+            }
             Files.delete(Paths.get(tempFile.getPath()));
             if ((returnCode == 0) && StringUtils.isBlank(error)) {
                 return new ScanResult(output, true);

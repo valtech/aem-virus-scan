@@ -11,6 +11,8 @@ Features:
     * Clam AV
 * Health checks
 
+Sample test virus files can be downloaded at [eicar](http://eicar.com/).
+
 <a name="requirements"></a>
 
 # Requirements
@@ -26,7 +28,7 @@ AVS requires Java 8 and AEM 6.4 or above.
 
 # Installation
 
-You can download the package from [Maven Central](http://repo1.maven.org/maven2/de/valtech/avs/avs.ui.apps/) or our [releases section](https://github.com/valtech/aem-virus-scan/releases). The avs.ui.apps package will install the AVS software.
+You can download the package from [Maven Central](https://repo1.maven.org/maven2/de/valtech/avs/avs.ui.apps/) or our [releases section](https://github.com/valtech/aem-virus-scan/releases). The avs.ui.apps package will install the AVS software.
 
 ```xml
         <dependency>
@@ -171,7 +173,7 @@ You can access them on the [status page](http://localhost:4502/libs/granite/oper
 
 # API Documentation
 
-TODO
+https://valtech.github.io/aem-virus-scan/
 
 <a name="license"></a>
 

@@ -22,7 +22,7 @@
  * 
  * @author Roland Gruber
  */
-@Version("1.0.0")
+@Version("2.0.0")
 package de.valtech.avs.api.service.scanner;
 
 import org.osgi.annotation.versioning.Version;
