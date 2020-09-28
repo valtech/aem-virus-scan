@@ -83,6 +83,7 @@ You can see an example for each configuration in [example package](/examples/src
 ## AVS Post Filter
 
 This filter can scan e.g. asset uploads for viruses.
+You will also need to configure "Day CQ Mail Service" (com.day.cq.mailer.DefaultMailService) for this.
 
 * includePatterns: List of regular expressions to match the URLs to check. If empty, all non-excluded URLs are scanned.
 * excludePatterns: List of regular expressions to match the URLs to ignore. Has higher priority than include patterns.

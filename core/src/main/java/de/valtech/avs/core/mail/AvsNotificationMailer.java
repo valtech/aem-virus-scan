@@ -34,6 +34,8 @@ import org.apache.velocity.app.VelocityEngine;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.component.annotations.ReferenceCardinality;
+import org.osgi.service.component.annotations.ReferencePolicyOption;
 import org.osgi.service.metatype.annotations.Designate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,7 +55,7 @@ public class AvsNotificationMailer {
 
     private static final Logger LOG = LoggerFactory.getLogger(AvsNotificationMailer.class);
 
-    @Reference
+    @Reference(cardinality = ReferenceCardinality.OPTIONAL, policyOption = ReferencePolicyOption.GREEDY)
     private MailService mailService;
 
     private AvsNotificationMailerConfig config;
@@ -76,6 +78,10 @@ public class AvsNotificationMailer {
      * @param result   scan result
      */
     public void sendEmail(List<String> emails, String fileName, ScanResult result) {
+        if (mailService == null) {
+            LOG.info("Skipping email sending as mail service is not configured.");
+            return;
+        }
         VelocityEngine ve = new VelocityEngine();
         ve.init();
         VelocityContext context = new VelocityContext();

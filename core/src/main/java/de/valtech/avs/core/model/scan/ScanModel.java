@@ -68,7 +68,7 @@ public class ScanModel {
                 if (inputStream != null) {
                     scanDone = true;
                     String userId = request.getResourceResolver().adaptTo(Session.class).getUserID();
-                    ScanResult result = avsService.scan(inputStream, userId);
+                    ScanResult result = avsService.scan(inputStream, userId, filePart.getSubmittedFileName());
                     clean = result.isClean();
                     resultOutput = result.getOutput();
                 }

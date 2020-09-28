@@ -4,7 +4,7 @@
 	<groupId>de.valtech.avs</groupId>
 	<artifactId>avs</artifactId>
 	<packaging>pom</packaging>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<name>AVS</name>
 	<description>AEM Virus Scan</description>
 	<url>https://github.com/valtech/aem-virus-scan</url>
@@ -341,7 +341,7 @@
 				<plugin>
 					<groupId>org.owasp</groupId>
 					<artifactId>dependency-check-maven</artifactId>
-					<version>5.2.1</version>
+					<version>5.2.4</version>
 					<configuration>
 						<failBuildOnCVSS>0</failBuildOnCVSS>
 						<failBuildOnAnyVulnerability>true</failBuildOnAnyVulnerability>
