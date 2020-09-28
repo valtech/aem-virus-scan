@@ -138,7 +138,7 @@ public class AvsPostFilter implements Filter {
                 continue;
             }
             if (StringUtils.isNotEmpty(part.getSubmittedFileName())) {
-                fileNames.add(part.getSubmittedFileName());
+                fileNames.add(getFilePath(slingRequest, part));
             }
             InputStream partStream = part.getInputStream();
             File file = File.createTempFile("valtech-avs", ".tmp");
@@ -176,6 +176,20 @@ public class AvsPostFilter implements Filter {
         }
         combinedStream.close();
         chain.doFilter(request, response);
+    }
+
+    /**
+     * Returns path and name of uploaded file.
+     * 
+     * @param slingRequest request
+     * @param part         file part
+     * @return path
+     */
+    private String getFilePath(SlingHttpServletRequest slingRequest, Part part) {
+        String fileName = part.getSubmittedFileName();
+        String path = (StringUtils.isNotBlank(slingRequest.getRequestURI())) ? slingRequest.getRequestURI() + "/" : "";
+        path = path.replace(".createasset.html", "");
+        return path + fileName;
     }
 
     /**
