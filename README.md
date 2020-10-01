@@ -188,6 +188,26 @@ The AVS tool is licensed under the [MIT LICENSE](LICENSE).
 
 Please see our [history file](HISTORY).
 
+<a name="customScanner"></a>
+
+# Implement a Custom Scan Engine
+
+Implementing a custom scan engine is quite simple. There is no need to patch this project. You can implement the service in your own bundle. Of course, a pull request is appreciated.
+
+Please implement a new service that implements de.valtech.avs.api.service.scanner.AvsScannerEnine. The AVS engine will pick it up automatically when the service is started. You only need to implement a single method.
+
+```
+@Component(service = AvsScannerEnine.class, immediate = true)
+public class MyScannerEngine implements AvsScannerEnine {
+
+    @Override
+    public ScanResult scan(InputStream content, String fileName) throws AvsException {
+      ...
+    }
+```
+
+
+
 <a name="developers"></a>
 
 # Developers
