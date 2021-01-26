@@ -25,7 +25,7 @@ import org.osgi.service.metatype.annotations.ObjectClassDefinition;
 
 /**
  * Clam scanner configuration.
- * 
+ *
  * @author Roland Gruber
  */
 @ObjectClassDefinition(name = "AVS ClamAV configuration")
@@ -33,8 +33,18 @@ import org.osgi.service.metatype.annotations.ObjectClassDefinition;
 public @interface ClamScannerConfig {
 
     /**
+     * Return the temporary-file directory.
+     *
+     * @return absolute path of the temporary-file directory
+     */
+    @AttributeDefinition(name = "Temporary-file directory",
+            description = "Absolute path of the temporary-file directory. If empty, it will use the default one.",
+            type = AttributeType.STRING)
+    String tempDir();
+
+    /**
      * Returns the scan command.
-     * 
+     *
      * @return command
      */
     @AttributeDefinition(name = "Scan command",

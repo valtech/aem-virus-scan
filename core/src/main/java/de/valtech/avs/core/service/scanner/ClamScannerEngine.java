@@ -42,7 +42,7 @@ import de.valtech.avs.api.service.scanner.ScanResult;
 
 /**
  * AVS scan engine using ClamAV.
- * 
+ *
  * @author Roland Gruber
  */
 @Component(service = AvsScannerEnine.class, configurationPolicy = ConfigurationPolicy.REQUIRE, immediate = true)
@@ -55,7 +55,7 @@ public class ClamScannerEngine implements AvsScannerEnine {
 
     /**
      * Setup service
-     * 
+     *
      * @param config configuration
      */
     @Activate
@@ -96,16 +96,30 @@ public class ClamScannerEngine implements AvsScannerEnine {
 
     /**
      * Creates a temporary file with the given content.
-     * 
+     *
      * @param content content
      * @return file handle
      * @throws IOException error creating file
      */
     private File createTemporaryFile(InputStream content) throws IOException {
-        File file = File.createTempFile("valtech-avs", ".tmp");
+        File file = File.createTempFile("valtech-avs", ".tmp", getTemporaryDirectory());
         Files.copy(content, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
         content.close();
         return file;
     }
+
+    /**
+     * Get the temporary-file directory based on configuration.
+     *
+     * @return the temporary-file directory or null if the configuration is empty.
+     */
+    private File getTemporaryDirectory() {
+        File directory = null;
+        if (config.tempDir() != null && !config.tempDir().isEmpty()) {
+            directory = new File(config.tempDir());
+        }
+        return directory;
+    }
+
 
 }
