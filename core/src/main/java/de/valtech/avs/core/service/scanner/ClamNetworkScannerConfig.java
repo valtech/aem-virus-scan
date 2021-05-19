@@ -37,7 +37,7 @@ public @interface ClamNetworkScannerConfig {
      * 
      * @return host
      */
-    @AttributeDefinition(name = "Host", description = "Host of remote clam scanning server.", type = AttributeType.STRING)
+    @AttributeDefinition(name = "Host", description = "Host of remote Clam scanning server.", type = AttributeType.STRING)
     String host();
 
     /**
@@ -45,7 +45,7 @@ public @interface ClamNetworkScannerConfig {
      * 
      * @return port
      */
-    @AttributeDefinition(name = "Port", description = "Port of remote clam scanning server (e.g. 3310).",
+    @AttributeDefinition(name = "Port", description = "Port of remote Clam scanning server (e.g. 3310).",
             type = AttributeType.INTEGER)
     int port();
 
@@ -63,7 +63,7 @@ public @interface ClamNetworkScannerConfig {
      * 
      * @return port
      */
-    @AttributeDefinition(name = "Chunk size", description = "Chunk size that is acceptable for clam.",
+    @AttributeDefinition(name = "Chunk size", description = "Chunk size that is acceptable for Clam.",
             type = AttributeType.INTEGER)
     int chunkSize();
 

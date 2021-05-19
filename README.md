@@ -127,11 +127,15 @@ File name: de.valtech.avs.core.mail.AvsNotificationMailer.xml
 />
 ```
 
+<a name="conf_engines"></a>
+
+## Scan Engines
+
 <a name="conf_clam"></a>
 
-## Clam Scanning Engine
+### Clam Scanning Engine (Local Installation)
 
-You need to provide a configuration for Clam AV in case you want to use this scan engine. If no configuration is provided then it will not be activated.
+This engine uses a locally installed Clam AV application on the AEM server. You need to provide a configuration for Clam AV in case you want to use this scan engine. If no configuration is provided then it will not be activated.
 
 * command: command to scan a single file. The file name will be added at the end of the command.
 
@@ -143,6 +147,29 @@ File name: de.valtech.avs.core.service.scanner.ClamScannerEngine.xml
 <?xml version="1.0" encoding="UTF-8"?>
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" jcr:primaryType="sling:OsgiConfig"
    command="/usr/local/bin/clamdscan --infected --no-summary"
+/>
+```
+
+### Clam Scanning Engine (Network)
+
+This engine calls Clam AV via network. This requires that you have an external server that runs Clam AV with open TCP port ("TCPSocket" setting). You need to provide a configuration for Clam AV in case you want to use this scan engine. If no configuration is provided then it will not be activated.
+
+* host: Host of remote Clam scanning server.
+* port: Port of remote Clam scanning server (e.g. 3310).
+* timeout: Connection timeout in seconds.
+* chunkSize: Chunk size that is acceptable for Clam.
+
+PID: de.valtech.avs.core.service.scanner.ClamNetworkScannerEngine
+
+File name: de.valtech.avs.core.service.scanner.ClamNetworkScannerEngine.xml
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" jcr:primaryType="sling:OsgiConfig"
+   host="localhost"
+   port="3310"
+   timeout="5"
+   chunkSize="100000"
 />
 ```
 
