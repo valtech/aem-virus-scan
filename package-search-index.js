@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"de.valtech.avs.api.history"},{"l":"de.valtech.avs.api.service"},{"l":"de.valtech.avs.api.service.scanner"}]

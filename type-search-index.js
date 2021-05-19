@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes","url":"allclasses-index.html"},{"p":"de.valtech.avs.api.service","l":"AvsException"},{"p":"de.valtech.avs.api.service.scanner","l":"AvsScannerEnine"},{"p":"de.valtech.avs.api.service","l":"AvsService"},{"p":"de.valtech.avs.api.history","l":"HistoryEntry"},{"p":"de.valtech.avs.api.service.scanner","l":"ScanResult"}]
