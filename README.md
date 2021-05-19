@@ -19,12 +19,12 @@ Table of contents
 3. [Scan File Uploads](#fileuploads)
 4. [Tools](#tools)
 5. [Configuration](#configuration)
-7. [Health Checks](#healthchecks)
-8. [API Documentation](#api)
-9. [License](#license)
-10. [Changelog](#changelog)
-11. [Implement a Custom Scan Engine](#customScanner)
-12. [Developers](developers#)
+6. [Health Checks](#healthchecks)
+7. [API Documentation](#api)
+8. [License](#license)
+9. [Changelog](#changelog)
+10. [Implement a Custom Scan Engine](#customScanner)
+11. [Developers](developers#)
 
 
 <a name="requirements"></a>
