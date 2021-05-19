@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Valtech GmbH
+ * Copyright 2021 Valtech GmbH
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
  * associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -24,22 +24,47 @@ import org.osgi.service.metatype.annotations.AttributeType;
 import org.osgi.service.metatype.annotations.ObjectClassDefinition;
 
 /**
- * Clam scanner configuration.
+ * Clam network scanner configuration.
  * 
  * @author Roland Gruber
  */
-@ObjectClassDefinition(name = "AVS ClamAV local scanning configuration")
+@ObjectClassDefinition(name = "AVS ClamAV network scanning configuration")
 @ProviderType
-public @interface ClamScannerConfig {
+public @interface ClamNetworkScannerConfig {
 
     /**
-     * Returns the scan command.
+     * Returns the scan host.
      * 
-     * @return command
+     * @return host
      */
-    @AttributeDefinition(name = "Scan command",
-            description = "Command to scan a single file. The file name will be added at the end of the command.",
-            type = AttributeType.STRING)
-    String command();
+    @AttributeDefinition(name = "Host", description = "Host of remote clam scanning server.", type = AttributeType.STRING)
+    String host();
+
+    /**
+     * Returns the scan port.
+     * 
+     * @return port
+     */
+    @AttributeDefinition(name = "Port", description = "Port of remote clam scanning server (e.g. 3310).",
+            type = AttributeType.INTEGER)
+    int port();
+
+    /**
+     * Returns the connection timeout.
+     * 
+     * @return port
+     */
+    @AttributeDefinition(name = "Connection timeout", description = "Connection timeout in seconds.",
+            type = AttributeType.INTEGER)
+    int timeout();
+
+    /**
+     * Returns the chunk size.
+     * 
+     * @return port
+     */
+    @AttributeDefinition(name = "Chunk size", description = "Chunk size that is acceptable for clam.",
+            type = AttributeType.INTEGER)
+    int chunkSize();
 
 }
