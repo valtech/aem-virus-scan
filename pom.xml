@@ -131,6 +131,7 @@
 					<version>3.2.0</version>
 					<configuration>
 					   <detectOfflineLinks>false</detectOfflineLinks>
+					   <detectJavaApiLink>false</detectJavaApiLink>
 					</configuration>
 				</plugin>
 				<plugin>
