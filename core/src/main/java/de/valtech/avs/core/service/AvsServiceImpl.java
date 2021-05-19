@@ -95,6 +95,7 @@ public class AvsServiceImpl implements AvsService {
                 result.setUserId(userId);
                 if (!result.isClean()) {
                     historyService.createHistoryEntry(resolver, result);
+                    break;
                 }
             }
         } catch (LoginException e) {

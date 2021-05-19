@@ -13,6 +13,20 @@ Features:
 
 Sample test virus files can be downloaded at [eicar](http://eicar.com/).
 
+Table of contents
+1. [Requirements](#requirements)
+2. [Installation](#installation)
+3. [Scan File Uploads](#fileuploads)
+4. [Tools](#tools)
+5. [Configuration](#configuration)
+6. [Health Checks](#healthchecks)
+7. [API Documentation](#api)
+8. [License](#license)
+9. [Changelog](#changelog)
+10. [Implement a Custom Scan Engine](#customScanner)
+11. [Developers](developers#)
+
+
 <a name="requirements"></a>
 
 # Requirements
@@ -48,11 +62,15 @@ The application can be removed by deleting the following paths:
 
 Afterwards, you can delete the "avs.ui.apps" package in package manager.
 
+<a name="fileuploads"></a>
+
 # Scan File Uploads
 
 You can scan files in any POST request. E.g. this way you can scan files that are uploaded to DAM.
 
 You should provide a [configuration](#conf_filter) of the URL patterns for the filter.
+
+<a name="tools"></a>
 
 # Tools
 
@@ -73,6 +91,8 @@ You can upload a file using AVS scan tool from the menu. This allows you to chec
 This shows the history of the last found infections. Scans that did not lead to an alert are not listed.
 
 <img src="docs/images/history.png">
+
+<a name="configuration"></a>
 
 # Configuration
 
@@ -127,11 +147,15 @@ File name: de.valtech.avs.core.mail.AvsNotificationMailer.xml
 />
 ```
 
+<a name="conf_engines"></a>
+
+## Scan Engines
+
 <a name="conf_clam"></a>
 
-## Clam Scanning Engine
+### Clam Scanning Engine (Local Installation)
 
-You need to provide a configuration for Clam AV in case you want to use this scan engine. If no configuration is provided then it will not be activated.
+This engine uses a locally installed Clam AV application on the AEM server. You need to provide a configuration for Clam AV in case you want to use this scan engine. If no configuration is provided then it will not be activated.
 
 * command: command to scan a single file. The file name will be added at the end of the command.
 
@@ -143,6 +167,29 @@ File name: de.valtech.avs.core.service.scanner.ClamScannerEngine.xml
 <?xml version="1.0" encoding="UTF-8"?>
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" jcr:primaryType="sling:OsgiConfig"
    command="/usr/local/bin/clamdscan --infected --no-summary"
+/>
+```
+
+### Clam Scanning Engine (Network)
+
+This engine calls Clam AV via network. This requires that you have an external server that runs Clam AV with open TCP port ("TCPSocket" setting). You need to provide a configuration for Clam AV in case you want to use this scan engine. If no configuration is provided then it will not be activated.
+
+* host: Host of remote Clam scanning server.
+* port: Port of remote Clam scanning server (e.g. 3310).
+* timeout: Connection timeout in seconds.
+* chunkSize: Chunk size that is acceptable for Clam.
+
+PID: de.valtech.avs.core.service.scanner.ClamNetworkScannerEngine
+
+File name: de.valtech.avs.core.service.scanner.ClamNetworkScannerEngine.xml
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" jcr:primaryType="sling:OsgiConfig"
+   host="localhost"
+   port="3310"
+   timeout="5"
+   chunkSize="100000"
 />
 ```
 
@@ -162,6 +209,8 @@ File name: de.valtech.avs.core.maintenance.PurgeHistoryTask.xml
    daysToKeep="30"
 />
 ```
+
+<a name="healthchecks"></a>
 
 # Health Checks
 
