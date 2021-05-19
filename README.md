@@ -13,6 +13,20 @@ Features:
 
 Sample test virus files can be downloaded at [eicar](http://eicar.com/).
 
+Table of contents
+1. [Requirements](#requirements)
+2. [Installation](#installation)
+3. [Scan File Uploads](#fileuploads)
+4. [Tools](#tools)
+5. [Configuration](#configuration)
+7. [Health Checks](#healthchecks)
+8. [API Documentation](#api)
+9. [License](#license)
+10. [Changelog](#changelog)
+11. [Implement a Custom Scan Engine](#customScanner)
+12. [Developers](developers#)
+
+
 <a name="requirements"></a>
 
 # Requirements
@@ -48,11 +62,15 @@ The application can be removed by deleting the following paths:
 
 Afterwards, you can delete the "avs.ui.apps" package in package manager.
 
+<a name="fileuploads"></a>
+
 # Scan File Uploads
 
 You can scan files in any POST request. E.g. this way you can scan files that are uploaded to DAM.
 
 You should provide a [configuration](#conf_filter) of the URL patterns for the filter.
+
+<a name="tools"></a>
 
 # Tools
 
@@ -73,6 +91,8 @@ You can upload a file using AVS scan tool from the menu. This allows you to chec
 This shows the history of the last found infections. Scans that did not lead to an alert are not listed.
 
 <img src="docs/images/history.png">
+
+<a name="configuration"></a>
 
 # Configuration
 
@@ -189,6 +209,8 @@ File name: de.valtech.avs.core.maintenance.PurgeHistoryTask.xml
    daysToKeep="30"
 />
 ```
+
+<a name="healthchecks"></a>
 
 # Health Checks
 
