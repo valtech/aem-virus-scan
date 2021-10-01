@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>de.valtech.avs</groupId>
 		<artifactId>avs</artifactId>
-		<version>1.1.1-SNAPSHOT</version>
+		<version>1.1.1-rc-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>avs.core</artifactId>
