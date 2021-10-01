@@ -134,7 +134,7 @@ public class AvsPostFilter implements Filter {
             String partContentType = part.getContentType();
             if (StringUtils.isEmpty(partContentType)) {
                 String partContent = IOUtils.toString(part.getInputStream(), StandardCharsets.UTF_8.name());
-                newParts.add(new PartWrapper(part, partContent.getBytes()));
+                newParts.add(new PartWrapper(part, partContent.getBytes(StandardCharsets.UTF_8.name())));
                 continue;
             }
             if (StringUtils.isNotEmpty(part.getSubmittedFileName())) {
