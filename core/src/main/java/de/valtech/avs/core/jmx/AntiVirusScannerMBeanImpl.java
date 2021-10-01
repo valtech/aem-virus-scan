@@ -19,6 +19,8 @@
 package de.valtech.avs.core.jmx;
 
 import java.io.ByteArrayInputStream;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 
 import javax.management.NotCompliantMBeanException;
 
@@ -53,10 +55,10 @@ public class AntiVirusScannerMBeanImpl extends AnnotatedStandardMBean implements
 
     @Override
     public String scanContent(String content) {
-        ByteArrayInputStream stream = new ByteArrayInputStream(content.getBytes());
         try {
+            ByteArrayInputStream stream = new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8.name()));
             return scanner.scan(stream, "JMX").toString();
-        } catch (AvsException e) {
+        } catch (AvsException | UnsupportedEncodingException e) {
             return "Error: " + e.getMessage();
         }
     }
