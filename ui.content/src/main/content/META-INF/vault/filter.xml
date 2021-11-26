@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/conf/global/settings/granite/operations/maintenance/granite_weekly">
+      <include pattern="/conf/global/settings/granite/operations/maintenance/granite_weekly" />
+      <include pattern="/conf/global/settings/granite/operations/maintenance/granite_weekly/avs_history_purge(/.*)?" />
+    </filter>
+</workspaceFilter>
