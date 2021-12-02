@@ -78,7 +78,6 @@
 					<failOnError>true</failOnError>
 					<group>Valtech</group>
 					<properties>
-						<acHandling>merge_preserve</acHandling>
 						<installPathRegex>/apps/valtech/avs/(config|install)/.*</installPathRegex>
 						<waitForOsgiEventsQuietInSec>7</waitForOsgiEventsQuietInSec>
 					</properties>
