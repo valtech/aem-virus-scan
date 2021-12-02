@@ -14,91 +14,26 @@
 	<description>UI apps package for AVS</description>
 
 	<build>
-		<sourceDirectory>src/main/content/jcr_root</sourceDirectory>
-		<resources>
-			<resource>
-				<directory>${basedir}/src/main/content/jcr_root</directory>
-				<excludes>
-					<exclude>**/.vlt</exclude>
-					<exclude>**/.vltignore</exclude>
-					<exclude>**/.gitignore</exclude>
-					<exclude>**/*.iml</exclude>
-					<exclude>**/.classpath</exclude>
-					<exclude>**/.project</exclude>
-					<exclude>**/.settings</exclude>
-					<exclude>**/.DS_Store</exclude>
-					<exclude>**/target/**</exclude>
-					<exclude>**/pom.xml</exclude>
-				</excludes>
-			</resource>
-			<resource>
-				<directory>src/main/content/META-INF/vault/definition</directory>
-				<targetPath>../vault-work/META-INF/vault/definition</targetPath>
-			</resource>
-		</resources>
-		<plugins>
-			<plugin>
-				<artifactId>maven-resources-plugin</artifactId>
-				<configuration>
-					<includeEmptyDirs>true</includeEmptyDirs>
-				</configuration>
-			</plugin>
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>add-sling-install-hook</id>
-						<phase>generate-resources</phase>
-						<goals>
-							<goal>copy</goal>
-						</goals>
-						<configuration>
-							<artifactItems>
-								<artifactItem>
-									<groupId>org.apache.sling</groupId>
-									<artifactId>org.apache.sling.installer.provider.installhook</artifactId>
-									<version>1.0.4</version>
-								</artifactItem>
-							</artifactItems>
-							<outputDirectory>${project.build.directory}/vault-work/META-INF/vault/hooks</outputDirectory>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+		<plugins>
 
 			<plugin>
 				<groupId>org.apache.jackrabbit</groupId>
 				<artifactId>filevault-package-maven-plugin</artifactId>
 				<configuration>
-					<allowIndexDefinitions>true</allowIndexDefinitions>
+          <packageType>application</packageType>
 					<filterSource>src/main/content/META-INF/vault/filter.xml</filterSource>
-					<verbose>true</verbose>
-					<failOnError>true</failOnError>
 					<group>Valtech</group>
-					<properties>
-						<installPathRegex>/apps/valtech/avs/(config|install)/.*</installPathRegex>
-						<waitForOsgiEventsQuietInSec>7</waitForOsgiEventsQuietInSec>
-					</properties>
-					<repositoryStructurePackages>
-						<repositoryStructurePackage>
-							<groupId>de.valtech.avs</groupId>
-							<artifactId>ui.apps.structure</artifactId>
-						</repositoryStructurePackage>
-					</repositoryStructurePackages>
-					<embeddeds>
-						<embedded>
-							<groupId>de.valtech.avs</groupId>
-							<artifactId>avs.api</artifactId>
-							<target>/apps/valtech/avs/install</target>
-						</embedded>
-						<embedded>
-							<groupId>de.valtech.avs</groupId>
-							<artifactId>avs.core</artifactId>
-							<target>/apps/valtech/avs/install</target>
-						</embedded>
-					</embeddeds>
+          <properties>
+              <cloudManagerTarget>none</cloudManagerTarget>
+          </properties>
+          <validatorsSettings>
+              <jackrabbit-filter>
+                  <options>
+                      <validRoots>/apps,/apps/valtech,/apps/cq/core/content/nav/tools,/apps/settings/granite/operations/hc</validRoots>
+                  </options>
+              </jackrabbit-filter>
+          </validatorsSettings>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -113,22 +48,4 @@
 		</plugins>
 	</build>
 
-	<dependencies>
-		<dependency>
-			<groupId>de.valtech.avs</groupId>
-			<artifactId>avs.core</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>de.valtech.avs</groupId>
-			<artifactId>avs.api</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>de.valtech.avs</groupId>
-			<artifactId>ui.apps.structure</artifactId>
-			<version>${project.version}</version>
-			<type>zip</type>
-		</dependency>
-	</dependencies>
 </project>

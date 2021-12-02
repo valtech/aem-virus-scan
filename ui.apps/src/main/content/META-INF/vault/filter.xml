@@ -2,6 +2,5 @@
 <workspaceFilter version="1.0">
     <filter root="/apps/valtech/avs"/>
     <filter root="/apps/cq/core/content/nav/tools/avs"/>
-    <filter root="/home/users/system/avs"/>
     <filter root="/apps/settings/granite/operations/hc/avs"/>
 </workspaceFilter>

@@ -12,7 +12,6 @@
 	<modules>
 		<module>api</module>
 		<module>core</module>
-		<module>ui.apps.structure</module>
 		<module>ui.apps</module>
     <module>complete</module>
 		<module>ui.content</module>
