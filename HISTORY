@@ -1,3 +1,6 @@
+2021-12 2.0.0
+  - AEM Cloud compatible
+
 2021-10-01 1.1.1
   - Fixed issue with non-ASCII characters in file names
 
