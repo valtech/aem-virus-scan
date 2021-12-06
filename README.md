@@ -31,16 +31,51 @@ Table of contents
 
 # Requirements
 
-AVS requires Java 8 and AEM 6.4 or above.
+AVS requires Java 8 and AEM 6.5 or AEM Cloud. For older AEM versions see below.
+
+| 6.5/Cloud     | 2.x       |
+
+## Older AEM versions
+
 
 | AEM Version   | AVS       |
 | ------------- | --------- |
 | 6.4           | 1.x       |
-| 6.5           | 1.x       |
 
 <a name="installation"></a>
 
 # Installation
+
+
+## AEM 6.5 and AEM Cloud
+
+### AEM 6.5
+
+You can download the package from [Maven Central](https://repo1.maven.org/maven2/de/valtech/avs/avs.complete/) or our [releases section](https://github.com/valtech/aem-easy-content-upgrade/releases). The avs.complete package will install the AVS software.
+
+```xml
+        <dependency>
+            <groupId>de.valtech.avs</groupId>
+            <artifactId>avs.complete</artifactId>
+            <version>LATEST</version>
+            <type>zip</type>
+        </dependency>
+```
+
+### AEM Cloud
+
+You can download the package from [Maven Central](https://repo1.maven.org/maven2/de/valtech/avs/avs.complete.cloud/) or our [releases section](https://github.com/valtech/aem-easy-content-upgrade/releases). The avs.complete package will install the AVS software.
+
+```xml
+        <dependency>
+            <groupId>de.valtech.avs</groupId>
+            <artifactId>avs.complete.cloud</artifactId>
+            <version>LATEST</version>
+            <type>zip</type>
+        </dependency>
+```
+
+## Older AEM Versions (<6.5/Cloud)
 
 You can download the package from [Maven Central](https://repo1.maven.org/maven2/de/valtech/avs/avs.ui.apps/) or our [releases section](https://github.com/valtech/aem-virus-scan/releases). The avs.ui.apps package will install the AVS software.
 
@@ -58,6 +93,9 @@ You can download the package from [Maven Central](https://repo1.maven.org/maven2
 
 The application can be removed by deleting the following paths:
 * /apps/valtech/avs
+* /apps/settings/granite/operations/hc/avs
+* /conf/global/settings/granite/operations/maintenance/granite_weekly/avs_history_purge
+* /home/users/system/avs
 * /var/avs
 
 Afterwards, you can delete the "avs.ui.apps" package in package manager.
