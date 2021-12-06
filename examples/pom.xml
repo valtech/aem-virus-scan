@@ -72,13 +72,4 @@
 		</plugins>
 	</build>
 	
-	<dependencies>
-    <dependency>
-      <groupId>de.valtech.avs</groupId>
-      <artifactId>ui.apps.structure</artifactId>
-      <version>${project.version}</version>
-      <type>zip</type>
-    </dependency>
-	</dependencies>
-
 </project>
