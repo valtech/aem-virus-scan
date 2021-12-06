@@ -34,6 +34,7 @@ Table of contents
 AVS requires Java 8 and AEM 6.5 or AEM Cloud. For older AEM versions see below.
 
 | AEM Version   | AVS       |
+| ------------- | --------- |
 | 6.5/Cloud     | 2.x       |
 
 ## Older AEM versions
