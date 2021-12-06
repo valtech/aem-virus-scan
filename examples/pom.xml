@@ -55,12 +55,9 @@
 					<verbose>true</verbose>
 					<failOnError>true</failOnError>
 					<group>Valtech</group>
-					<repositoryStructurePackages>
-						<repositoryStructurePackage>
-							<groupId>de.valtech.avs</groupId>
-							<artifactId>ui.apps.structure</artifactId>
-						</repositoryStructurePackage>
-					</repositoryStructurePackages>
+          <properties>
+              <cloudManagerTarget>none</cloudManagerTarget>
+          </properties>
 				</configuration>
 			</plugin>
 			<plugin>
