@@ -100,7 +100,7 @@ The application can be removed by deleting the following paths:
 * /home/users/system/avs
 * /var/avs
 
-Afterwards, you can delete the "avs.ui.apps" package in package manager.
+Afterwards, you can delete the AVS packages in package manager.
 
 <a name="fileuploads"></a>
 
