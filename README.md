@@ -53,7 +53,7 @@ AVS requires Java 8 and AEM 6.5 or AEM Cloud. For older AEM versions see below.
 
 ### AEM 6.5
 
-You can download the package from [Maven Central](https://repo1.maven.org/maven2/de/valtech/avs/avs.complete/) or our [releases section](https://github.com/valtech/aem-easy-content-upgrade/releases). The avs.complete package will install the AVS software.
+You can download the package from [Maven Central](https://repo1.maven.org/maven2/de/valtech/avs/avs.complete/) or our [releases section](https://github.com/valtech/aem-virus-scan/releases). The avs.complete package will install the AVS software.
 
 ```xml
         <dependency>
@@ -66,7 +66,7 @@ You can download the package from [Maven Central](https://repo1.maven.org/maven2
 
 ### AEM Cloud
 
-You can download the package from [Maven Central](https://repo1.maven.org/maven2/de/valtech/avs/avs.complete.cloud/) or our [releases section](https://github.com/valtech/aem-easy-content-upgrade/releases). The avs.complete package will install the AVS software.
+You can download the package from [Maven Central](https://repo1.maven.org/maven2/de/valtech/avs/avs.complete.cloud/) or our [releases section](https://github.com/valtech/aem-virus-scan/releases). The avs.complete package will install the AVS software.
 
 ```xml
         <dependency>
