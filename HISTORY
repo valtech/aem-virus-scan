@@ -1,3 +1,9 @@
+2023-02-16 2.0.1
+  - Upgraded / fixed dependencies
+  - Added GitHub Actions
+  - Readme.md changes
+
+
 2021-12-06 2.0.0
   - AEM Cloud compatible
 
